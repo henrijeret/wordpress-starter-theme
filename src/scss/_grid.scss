@@ -1,0 +1,27 @@
+
+$grid--gutter: 1rem !default;
+$grid--column-count: 12 !default;
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: (-$grid--gutter / 2);
+}
+
+div[class^=grid__col],
+div[class*=grid__col] {
+    flex: 0 0 auto;
+    min-width: 0; // Fixes a bug not letting the child shrink the content
+    padding: $grid--gutter / 2;
+    box-sizing: border-box;
+}
+
+@each $key, $value in $breakpoints {
+    @include respond-from($key) {
+        @for $i from 1 through $grid--column-count {
+            .grid__col--#{$i}-#{$key} {
+                width: percentage($i / $grid--column-count);
+            }
+        }
+    }
+}
